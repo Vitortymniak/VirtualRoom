@@ -18,7 +18,7 @@ import org.slf4j.LoggerFactory;
  * @author pam_s
  */
 @ManagedBean
-@Path("/Escola")
+@Path("/escola")
 public class EscolaServiceImpl extends GenericCRUDRestService<Escola> implements EscolaService{
 
     private static final Logger LOG = LoggerFactory.getLogger(EscolaServiceImpl.class);

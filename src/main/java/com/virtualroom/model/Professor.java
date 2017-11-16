@@ -14,6 +14,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -28,10 +29,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Professor.findByTitulacao", query = "select c from Professor c where c.titulacao like :titulacao")
 })
 public class Professor extends Ator {
-    
-    @Column(length = 255, nullable = false)
-    private String nome;
-    
+
     @Column(length = 255, nullable = false)
     private String titulacao;
 
@@ -41,8 +39,9 @@ public class Professor extends Ator {
     public Professor() {
     }
 
-    public Professor(String string, String vitor, Date date) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Professor(String titulacao, String nome, Date nascimento) {
+        super(nome, nascimento);
+        this.titulacao = titulacao;
     }
 
     public String getTitulacao() {
@@ -53,6 +52,7 @@ public class Professor extends Ator {
         this.titulacao = titulacao;
     }
 
+    @XmlTransient
     public Set<Sala> getSalas() {
         return salas;
     }
@@ -64,7 +64,8 @@ public class Professor extends Ator {
     @Override
     public void updateParameters(Object entity) {
         Professor other = (Professor) entity;
-        this.nome = other.nome;
+        this.setNome(other.getNome());
+        this.setNascimento(other.getNascimento());
         this.titulacao = other.titulacao;
         this.salas = other.salas;
     }

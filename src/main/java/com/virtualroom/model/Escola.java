@@ -5,6 +5,7 @@
  */
 package com.virtualroom.model;
 
+import java.util.Objects;
 import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -68,6 +69,35 @@ public class Escola extends AbstractEntity {
         this.nomeFantasia = other.nomeFantasia;
         this.cnpj = other.cnpj;
         this.cursos = other.cursos;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 97 * hash + Objects.hashCode(this.nomeFantasia);
+        hash = 97 * hash + Objects.hashCode(this.cnpj);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Escola other = (Escola) obj;
+        if (!Objects.equals(this.nomeFantasia, other.nomeFantasia)) {
+            return false;
+        }
+        if (!Objects.equals(this.cnpj, other.cnpj)) {
+            return false;
+        }
+        return true;
     }
 
 }

@@ -3,6 +3,7 @@ package com.virtualroom.dao;
 import com.virtualroom.dao.impl.ProfessorDAOImpl;
 import com.virtualroom.model.Professor;
 import java.util.Date;
+import java.util.List;
 import javax.inject.Inject;
 import org.jglue.cdiunit.AdditionalClasses;
 import org.jglue.cdiunit.CdiRunner;
@@ -16,12 +17,12 @@ import org.junit.runner.RunWith;
  */
 @RunWith(CdiRunner.class)
 @AdditionalClasses(ProfessorDAOImpl.class)
-public class ProfessorTeste {
-    
+public class ProfessorTest {
+
     private static final Professor FERNANDO;
 
     static {
-        FERNANDO = new Professor("Fernando","Portugues", new Date());
+        FERNANDO = new Professor("Especialista", "Fernando", new Date());
     }
 
     @Inject
@@ -40,11 +41,11 @@ public class ProfessorTeste {
     }
 
     private Professor persisteSeNaoExiste(Professor professor) {
-        Professor existente =  (Professor) professorDAO.findByTitulacao(professor.getTitulacao());
-        if (existente == null) {
+        List<Professor> professores = professorDAO.findByTitulacao(professor.getTitulacao());
+        if (professores == null || professores.isEmpty()) {
             professorDAO.save(professor);
-            existente = (Professor) professorDAO.findByTitulacao(professor.getTitulacao());
+            professores = professorDAO.findByTitulacao(professor.getTitulacao());
         }
-        return existente;
+        return professores.get(0);
     }
 }

@@ -14,6 +14,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -49,6 +50,7 @@ public class Aluno extends Ator {
         this.registroAcademico = registroAcademico;
     }
 
+    @XmlTransient
     public Set<Sala> getSalas() {
         return salas;
     }
@@ -60,6 +62,8 @@ public class Aluno extends Ator {
     @Override
     public void updateParameters(Object entity) {
         Aluno other = (Aluno) entity;
+        this.setNome(other.getNome());
+        this.setNascimento(other.getNascimento());
         this.registroAcademico = other.registroAcademico;
         this.salas = other.salas;
     }

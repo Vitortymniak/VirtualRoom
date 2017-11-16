@@ -1,6 +1,7 @@
 package com.virtualroom.model;
 
 import java.util.Date;
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
@@ -9,6 +10,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -18,10 +20,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "cursos")
 @XmlRootElement(name = "curso")
 @NamedQueries({
-    @NamedQuery(name = "Curso.findByNome", query = "select c from Curso c where c.nome like :nome")
-    ,
-    @NamedQuery(name = "Curso.findByInicio", query = "select c from Curso c where c.inicio >= :inicio")
-    ,
+    @NamedQuery(name = "Curso.findByNome", query = "select c from Curso c where c.nome like :nome"),
+    @NamedQuery(name = "Curso.findByInicio", query = "select c from Curso c where c.inicio >= :inicio"),
     @NamedQuery(name = "Curso.findByPeriodo", query = "select c from Curso c where c.inicio >= :inicio and c.fim <= :fim")
 })
 public class Curso extends AbstractEntity {
@@ -80,6 +80,7 @@ public class Curso extends AbstractEntity {
         this.fim = fim;
     }
 
+    @XmlTransient
     public Escola getEscola() {
         return escola;
     }
@@ -95,6 +96,43 @@ public class Curso extends AbstractEntity {
         this.inicio = other.inicio;
         this.fim = other.fim;
         this.escola = other.escola;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 11 * hash + Objects.hashCode(this.nome);
+        hash = 11 * hash + Objects.hashCode(this.inicio);
+        hash = 11 * hash + Objects.hashCode(this.fim);
+        hash = 11 * hash + Objects.hashCode(this.escola);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Curso other = (Curso) obj;
+        if (!Objects.equals(this.nome, other.nome)) {
+            return false;
+        }
+        if (!Objects.equals(this.inicio, other.inicio)) {
+            return false;
+        }
+        if (!Objects.equals(this.fim, other.fim)) {
+            return false;
+        }
+        if (!Objects.equals(this.escola, other.escola)) {
+            return false;
+        }
+        return true;
     }
 
 }

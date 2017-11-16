@@ -5,7 +5,9 @@
  */
 package com.virtualroom.model;
 
+import java.util.HashSet;
 import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
@@ -28,11 +30,11 @@ public class Sala extends AbstractEntity {
     @ManyToOne
     private Curso curso;
 
-    @ManyToMany
-    private Set<Aluno> alunos;
+    @ManyToMany(cascade = CascadeType.ALL)
+    private Set<Aluno> alunos = new HashSet<>();
 
-    @ManyToMany
-    private Set<Professor> professores;
+    @ManyToMany(cascade = CascadeType.ALL)
+    private Set<Professor> professores = new HashSet<>();
 
     public Sala() {
     }
